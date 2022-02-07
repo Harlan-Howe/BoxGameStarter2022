@@ -84,6 +84,8 @@ public class GridDemoPanel extends JPanel implements MouseListener, KeyListener
 
 	@Override
 	// mouse was just released within about 1 pixel of where it was pressed.
+	// NOTE: this is actually kind of obnoxious because if the mouse moved much at all between press
+	// and release, it won't register as a click. You may be happier with mouseReleased, instead.
 	public void mouseClicked(MouseEvent e)
 	{
 		// TODO Auto-generated method stub
@@ -173,7 +175,7 @@ public class GridDemoPanel extends JPanel implements MouseListener, KeyListener
 	 * that creates a thread.
 	 *
 	 */
-	public void animationStep()
+	public void animationStep(long millisecondsSinceLastStep)
 	{
 		theGrid[0][0].cycleColorIDBackward();
 		repaint();
@@ -197,7 +199,7 @@ public class GridDemoPanel extends JPanel implements MouseListener, KeyListener
 				difference = System.currentTimeMillis() - start;
 				if (difference >= timestep)
 				{
-					animationStep();
+					animationStep(difference);
 					start = System.currentTimeMillis();
 				}
 				try
